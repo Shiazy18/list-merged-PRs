@@ -1,0 +1,22 @@
+name: Print Merged PRs to Dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  print-merged-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Run PowerShell script
+        run: |
+          pwsh -File ${{ github.workspace }}/script.ps1 -owner ${{ secrets.OWNER }} -repo ${{ secrets.REPO }} -token ${{ secrets.TOKEN }} -branch dev
+        shell: pwsh
+        env:
+          owner: ${{ secrets.OWNER }}
+          repo: ${{ secrets.REPO }}
+          token: ${{ secrets.TOKEN }}
